@@ -21,4 +21,8 @@ class Blockchain {
     }
 }
 
+Blockchain.prototype.getLastBlock = function() {
+    return this.chain[this.chain.length - 1];
+}
+
 module.exports = Blockchain;
