@@ -2,8 +2,8 @@ const Blockchain = require('./blockchain');
 
 const bitcoin = new Blockchain();
 
-bitcoin.createNewBlock(2389, '43u342hfu', 'fshdfghjuk');
-bitcoin.createNewBlock(2389, '43u342hfu', 'fshdfghjuk');
-bitcoin.createNewBlock(2389, '43u342hfu', 'fshdfghjuk');
+bitcoin.createNewBlock(84356, 'SDGGSFSD#453', 'gdfdfggdf');
+
+bitcoin.createNewTransaction(100, 'FGDRTE#$%', 'DFGDGDFG$#');
 
 console.log(bitcoin);
