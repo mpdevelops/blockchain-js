@@ -1,7 +1,7 @@
 const express = require('express');
 const Blockchain = require('./blockchain');
 const app = express();
-const port = 3000;
+const port = process.argv[2];
 const bodyParser = require('body-parser');
 
 const { v4: uuidv4 } = require('uuid');
@@ -44,5 +44,5 @@ app.get('/mine', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log('Listening on port 3000...')
+    console.log(`Listening on port ${port} ...`)
 });
