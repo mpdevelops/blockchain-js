@@ -1,5 +1,6 @@
 const sha256 = require('../node_modules/sha256/lib/sha256');
 const currentNodeUrl = process.argv[3];
+const { v4: uuidv4 } = require('uuid');
 
 class Blockchain {
     constructor() {
@@ -37,23 +38,26 @@ class Blockchain {
 
     // creates a new transaction and adds it to array of pending transactions
     createNewTransaction(amount, sender, recipient) {
-        const NEW_TRANSACTION = {
+        const newTransaction = {
             amount: amount,
             sender: sender,
-            recipient: recipient
+            recipient: recipient,
+            transactionId: uuidv4().split('-').join(''),
         };
     
-        this.pendingTransactions.push(NEW_TRANSACTION);
-    
-        // returns newly added transaction
+        return newTransaction;
+    }
+
+    addTransactionToPendingTransactions(transactionObj) {
+        this.pendingTransactions.push(transactionObj);
         return this.getLastBlock()['index'] + 1;
     }
 
     // takes block and hashes data using SHA256 hashing
     hashBlock(previousBlockHash, currentBlockData, nonce) {
-        const DATA_AS_STRING = previousBlockHash + nonce.toString() + JSON.stringify(currentBlockData);
-        const HASH = sha256(DATA_AS_STRING);
-        return HASH;
+        const dataAsString = previousBlockHash + nonce.toString() + JSON.stringify(currentBlockData);
+        const hash = sha256(dataAsString);
+        return hash;
     }
 
     // repeatedly hash block until correct hash is found

@@ -21,8 +21,28 @@ app.get('/blockchain', (req, res) => {
 
 // creates a new transaction
 app.post('/transaction', (req, res) => {
-    const blockIndex = dogecoin.createNewTransaction(req.body.amount, req.body.sender, req.body.recipient);
-    res.json({note: `Transaction will be added to block ${blockIndex}.`});
+    const newTransaction = req.body;
+    const blockIndex = dogecoin.addTransactionToPendingTransactions(newTransaction);
+    res.json({note: `Transaction will be added in block ${blockIndex}.`});
+});
+
+app.post('/transaction/broadcast', (req, res) => {
+    const newTransaction = dogecoin.createNewTransaction(req.body.amount, req.body.sender, req.body.recipient);
+    dogecoin.addTransactionToPendingTransaction(newTransaction);
+    const requestPromises = [];
+    dogecoin.networkNodes.forEach(networkNodeUrl => {
+        const requestOptions = {
+            uri: networkNodeUrl + '/transaction',
+            method: 'POST',
+            body: newTransaction,
+            json: true
+        };
+        requestPromises.push(rp(requestOptions));
+    });
+
+    Promise.all(requestPromises).then(data => {
+        res.json({note: 'Transaction created and broadcasted successfully.'});
+    })
 });
 
 // mines a new block
