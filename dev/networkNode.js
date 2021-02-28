@@ -59,10 +59,39 @@ app.get('/mine', (req, res) => {
     dogecoin.createNewTransaction(12.5, "00", nodeAddress);
     
     const newBlock = dogecoin.createNewBlock(nonce, previousBlockHash, blockHash);
-    res.json({
-        note: "New block mined successfully.",
-        block: newBlock
-    })
+    
+    const requestPromises = [];
+
+    dogecoin.networkNodes.forEach(networkNodeUrl => {
+        const requestOptions = {
+            uri: networkNodeUrl + '/receive-new-block',
+            method: 'POST',
+            body: { newBlock: newBlock },
+            json: true
+        };
+
+        requestPromises.push(rp(requestOptions));
+    });
+
+    Promise.all(requestPromises).then(data => {
+        const requestOptions = {
+            uri: dogecoin.currentNodeUrl + '/transaction/broadcast',
+            method: 'POST',
+            body: {
+                amount: 12.5,
+                sender: "00",
+                recipient: nodeAddress
+            },
+            json: true
+        };
+
+        return rp(requestOptions);
+    }).then(data => {
+        res.json({
+            note: "New block mined successfully.",
+            block: newBlock
+        });
+    });
 });
 
 // register a node and broadcast it to the network
