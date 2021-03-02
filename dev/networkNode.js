@@ -94,6 +94,7 @@ app.get('/mine', (req, res) => {
     });
 });
 
+// receives new block, checks whether is correct block
 app.post('/receive-new-block', (req, res) => {
     const newBlock = req.body.newBlock;
     const lastBlock = dogecoin.getLastBlock();
