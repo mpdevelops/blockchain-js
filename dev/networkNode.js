@@ -216,7 +216,11 @@ app.get('/consensus', (req, res) => {
 });
 
 app.get('/block/:blockHash', (req, res) => {
-
+    const blockHash = req.params.blockHash;
+    const correctBlock = dogecoin.getBlock(blockHash);
+    res.json({
+        block: correctBlock,
+    });
 });
 
 app.get('/transaction/:transactionId', (req, res) => {
