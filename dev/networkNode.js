@@ -224,6 +224,13 @@ app.get('/block/:blockHash', (req, res) => {
 });
 
 app.get('/transaction/:transactionId', (req, res) => {
+    const transactionId = req.params.transactionId;
+    const transactionData = dogecoin.getTransaction(transactionId);
+    res.json({
+        transaction: transactionData.transaction,
+        block: transactionData.block
+    })
+
 
 });
 
