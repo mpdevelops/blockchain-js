@@ -215,6 +215,18 @@ app.get('/consensus', (req, res) => {
     })
 });
 
+app.get('/block/:blockHash', (req, res) => {
+
+});
+
+app.get('/transaction/:transactionId', (req, res) => {
+
+});
+
+app.get('/address/:address', (req, res) => {
+
+});
+
 app.listen(port, () => {
     console.log(`Listening on port ${port} ...`)
 });
