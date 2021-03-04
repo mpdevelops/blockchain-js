@@ -204,14 +204,15 @@ app.get('/consensus', (req, res) => {
                 note: 'Current chain has not been replaced.',
                 chain: dogecoin.chain,
             });
-        } else (newLongestChain && dogecoin.chainIsValid(newLongestChain)) {
+        } 
+        else if (newLongestChain && dogecoin.chainIsValid(newLongestChain)){
             dogecoin.chain = newLongestChain;
             dogecoin.pendingTransactions = newPendingTransactions;
             res.json({
                 note: 'This chain has been replaced.',
                 chain: dogecoin.chain
             })
-        }
+        };
     })
 });
 
@@ -243,7 +244,7 @@ app.get('/address/:address', (req, res) => {
 });
 
 app.get('/block-explorer', (req, res) => {
-    res.sendFile('./block-explorer/index.html'), {root: __dirname};
+    res.sendFile('./block-explorer/index.html', {root: __dirname});
 })
 
 app.listen(port, () => {
