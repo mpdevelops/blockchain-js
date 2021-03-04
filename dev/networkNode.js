@@ -235,7 +235,11 @@ app.get('/transaction/:transactionId', (req, res) => {
 });
 
 app.get('/address/:address', (req, res) => {
-
+    const address = req.params.address;
+    const addressData = dogecoin.getAddressData(address);
+    res.json({
+        addressData: addressData
+    })
 });
 
 app.listen(port, () => {
