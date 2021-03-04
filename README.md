@@ -6,8 +6,5 @@ Blockchain data structure, API/Server, decentralized blockchain network, consens
 ### `npm install`
 Install all necessary dependencies
 
-### `npm install`
-Install all necessary dependencies
-
 ### `npm run node_x`
 Replace 'x' with 1 through 5 to run all nodes of synchronized blockchain network.
